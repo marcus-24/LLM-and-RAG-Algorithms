@@ -6,6 +6,9 @@ from transformers import (
     TrainingArguments,
 )
 from datasets import load_dataset
+import os
+
+os.environ["WANDB_DISABLED"] = "true"  # disable W&B account login on google colab
 
 # Reference for script: https://bhavikjikadara.medium.com/transfer-learning-step-by-step-implementation-using-hugging-face-824de8aa8afd
 # transformers are the NN architecture where there's a combination of attention and multilayer perception layers.
@@ -56,7 +59,6 @@ training_args = TrainingArguments(
     weight_decay=0.01,  # apply weight decay as regularization to prevent over training due to large weights
     max_steps=2,  # the total number of training steps to perform.
     run_name="Marcus Run",
-    report_to=None,  # disable W&B account login on google colab
 )
 # Define the Trainer
 trainer = Trainer(
