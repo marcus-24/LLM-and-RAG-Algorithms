@@ -56,6 +56,7 @@ training_args = TrainingArguments(
     weight_decay=0.01,  # apply weight decay as regularization to prevent over training due to large weights
     max_steps=2,  # the total number of training steps to perform.
     run_name="Marcus Run",
+    report_to=None,  # disable W&B account login on google colab
 )
 # Define the Trainer
 trainer = Trainer(
