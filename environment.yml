@@ -1,0 +1,12 @@
+name: llm_env
+channels:
+  - conda-forge
+  - anaconda
+  - defaults
+dependencies:
+  - python=3.13
+  - transformers=4.48.0
+  - huggingface_hub
+  - pytorch=2.5.1
+  - datasets
+  - nltk
