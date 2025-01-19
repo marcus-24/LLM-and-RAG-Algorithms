@@ -55,6 +55,7 @@ training_args = TrainingArguments(
     num_train_epochs=1,  # num of training epochs
     weight_decay=0.01,  # apply weight decay as regularization to prevent over training due to large weights
     max_steps=2,  # the total number of training steps to perform.
+    run_name="Marcus Run",
 )
 # Define the Trainer
 trainer = Trainer(
