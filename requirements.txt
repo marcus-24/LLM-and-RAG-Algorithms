@@ -1,0 +1,7 @@
+datasets
+huggingface_hub
+nltk
+python-dotenv
+pytorch==2.5.1
+transformers[torch]
+transformers==4.48.0

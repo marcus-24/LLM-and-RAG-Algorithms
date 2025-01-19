@@ -12,20 +12,32 @@ from datasets import load_dataset
 
 # %% Load pretrained model
 # load pre-trained tokenizer from BERT Uncased (upper/lower case doesnt matter)
-tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+model_name = "google-bert/bert-base-uncased"
+tokenizer = BertTokenizer.from_pretrained(model_name)
 
 # Load Bert Model with added sequnce classification layer at the end
 # num_labels = Number of labels to use in the last layer added to the model, typically for a classification task.
 model = BertForSequenceClassification.from_pretrained(
-    "bert-base-uncased", num_labels=2
+    model_name, num_labels=2, device_map="cuda"
 )  # labels in data below are 0 (neg) and 1 (pos)
 
 
 # %% Load and process data
-dataset = load_dataset("stanfordnlp/imdb", streaming=True)  # load IMDB movie reviews
+train_dataset = load_dataset(
+    "stanfordnlp/imdb", split="train[:1%]"
+)  # load IMDB movie reviews
+
+test_dataset = load_dataset(
+    "stanfordnlp/imdb", split="test[:1%]"
+)  # load IMDB movie reviews
 
 # set to pad and truncate at max length of model
-tokenized_datasets = dataset.map(
+tokenized_train_datasets = train_dataset.map(
+    lambda examples: tokenizer(examples["text"], padding="max_length", truncation=True),
+    batched=True,
+)  # output batches of data rather than single samples
+
+tokenized_test_datasets = test_dataset.map(
     lambda examples: tokenizer(examples["text"], padding="max_length", truncation=True),
     batched=True,
 )  # output batches of data rather than single samples
@@ -38,18 +50,18 @@ tokenized_datasets = dataset.map(
 training_args = TrainingArguments(
     output_dir="./results",  # where model preds and checkpoints are saved
     evaluation_strategy="epoch",  # model eval is done at end of each epoch
-    per_device_train_batch_size=8,  # batch size for train data per GPU/TPU etc.
-    per_device_eval_batch_size=8,  # batch size for eval data per GPU/TPU etc.
-    num_train_epochs=3,  # num of training epochs
+    per_device_train_batch_size=16,  # batch size for train data per GPU/TPU etc.
+    per_device_eval_batch_size=16,  # batch size for eval data per GPU/TPU etc.
+    num_train_epochs=1,  # num of training epochs
     weight_decay=0.01,  # apply weight decay as regularization to prevent over training due to large weights
-    max_steps=2,
+    max_steps=2,  # the total number of training steps to perform.
 )
 # Define the Trainer
 trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["test"],
+    train_dataset=tokenized_train_datasets,
+    eval_dataset=tokenized_test_datasets,
 )
 # Train the model
 trainer.train()

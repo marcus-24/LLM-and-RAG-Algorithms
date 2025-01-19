@@ -4,13 +4,7 @@ channels:
   - anaconda
   - defaults
 dependencies:
-  - datasets
-  - huggingface_hub
-  - nltk
   - pip
   - python=3.13
-  - python-dotenv
-  - pytorch=2.5.1
-  - transformers=4.48.0
   - pip:
-      - transformers[torch]
+      - -r requirements.txt
