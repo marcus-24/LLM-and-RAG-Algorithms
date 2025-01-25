@@ -6,5 +6,6 @@ channels:
 dependencies:
   - pip
   - python=3.13
+  - ipykernel
   - pip:
       - -r requirements.txt
