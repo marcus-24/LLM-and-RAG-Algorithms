@@ -10,7 +10,11 @@ To install the python environment locally for this project, use the following co
 
 ## Training LLMs on free Google Colab GPUs
 
-If you don't have GPUs on your local computer, Google Colab provides free GPUs (with limits). To set up your environment on Google Colab, each notebook will have the code snippet below to install the needed dependencies in the `requirements.txt` if ran in a Google colab notebook.
+If you don't have GPUs on your local computer, Google Colab provides free GPUs (with limits). You can clone this repository following Ashwin's Medium article below.
+
+<a href="https://medium.com/@ashwindesilva/how-to-use-google-colaboratory-to-clone-a-github-repository-e07cf8d3d22b">How to use Google Colaboratory to clone a GitHub Repository to your Google Drive?</a>
+
+To set up your environment on Google Colab, each notebook will have the code snippet below to install the needed dependencies in the `requirements.txt` if ran in a Google colab notebook.
 
 ```python
 import sys
