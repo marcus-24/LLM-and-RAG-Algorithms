@@ -14,17 +14,20 @@ If you don't have GPUs on your local computer, Google Colab provides free GPUs (
 
 <a href="https://medium.com/@ashwindesilva/how-to-use-google-colaboratory-to-clone-a-github-repository-e07cf8d3d22b">How to use Google Colaboratory to clone a GitHub Repository to your Google Drive?</a>
 
-To set up your environment on Google Colab, each notebook will have the code snippet below to install the needed dependencies in the `requirements.txt` if ran in a Google colab notebook.
+To set up your environment on Google Colab, each notebook will have the code snippet below to install the needed dependencies in the `requirements.txt` if ran in a Google colab notebook. **Be sure to replace the `<path to requirements.txt>` code with the actual path to the requirements.txt in the Google drive.**
 
 ```python
 import sys
+import subprocess
 import os
 
 IN_COLAB = 'google.colab' in sys.modules
 
 if IN_COLAB:
     print("Running in Google Colab and installing dependencies")
-    os.system('pip install -r ../requirements.txt')
+    from google.colab import drive
+    drive.mount('/content/gdrive')
+    !pip install -r <path to requirements.txt>
 else:
     print("Not running in Google Colab")
 ```
